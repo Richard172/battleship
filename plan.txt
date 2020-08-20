@@ -38,9 +38,9 @@ I am not sure how many, and what the size of ships would be in this game yet. It
 later. The game board of this game will be represented by an argmented matrix, where the left
 matrix is our board, and the right matrix is the AI's board. Ex:
 
-				OUR BOARD												ENEMY BOARD
+		OUR BOARD							ENEMY BOARD
 
-+---+---+---+---+---+---+---+---+---+---+		|		+---+---+---+---+---+---+---+---+---+---+
++---+---+---+---+---+---+---+---+---+---+		|	+---+---+---+---+---+---+---+---+---+---+
 |   |   |   |   |   |   |   |   |   |   |		|       |   |   |   |   |   |   |   |   |   |   |
 +---+---+---+---+---+---+---+---+---+---+		|       +---+---+---+---+---+---+---+---+---+---+
 |   |   |   |   |   |   |   |   |   |   |		|       |   |   |   |   |   |   |   |   |   |   |
@@ -66,9 +66,9 @@ Every time we plant a bomb in enemy's grid and the enemy plant a bomb in our gri
 will be refreshed. Here's an example of me planting a bomb on A_1,3, and AI putting a bomb on
 A_5,6.
 
-				OUR BOARD												ENEMY BOARD
+		OUR BOARD							ENEMY BOARD
 
-+---+---+---+---+---+---+---+---+---+---+		|		+---+---+---+---+---+---+---+---+---+---+
++---+---+---+---+---+---+---+---+---+---+		|	+---+---+---+---+---+---+---+---+---+---+
 |   |   |   |   |   |   |   |   |   |   |		|       |   |   | * |   |   |   |   |   |   |   |
 +---+---+---+---+---+---+---+---+---+---+		|       +---+---+---+---+---+---+---+---+---+---+
 |   |   |   |   |   |   |   |   |   |   |		|       |   |   |   |   |   |   |   |   |   |   |
