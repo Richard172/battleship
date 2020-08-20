@@ -93,9 +93,9 @@ A_5,6.
 When all the ship parts is wrecked, the ship will be destroyed and it will be surronded by "*".
 Here's what it looks when a 1 by 2 size ship is destroyed on our board.
 
-				OUR BOARD												ENEMY BOARD
+		OUR BOARD							ENEMY BOARD
 
-+---+---+---+---+---+---+---+---+---+---+		|		+---+---+---+---+---+---+---+---+---+---+
++---+---+---+---+---+---+---+---+---+---+		|	+---+---+---+---+---+---+---+---+---+---+
 |   |   |   |   |   |   |   |   |   |   |		|       |   |   | * |   |   |   |   |   |   |   |
 +---+---+---+---+---+---+---+---+---+---+		|       +---+---+---+---+---+---+---+---+---+---+
 |   |   |   |   |   |   |   |   |   |   |		|       |   |   |   |   |   |   |   |   |   |   |
