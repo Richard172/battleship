@@ -16,6 +16,33 @@ void print_grid(int grid[8][8])
 }
 
 
+// the function contains the test grid for the player
+void player_grid(int grid[8][8])
+{
+	grid[1][6] = 1;
+	grid[2][6] = 1;
+	grid[3][6] = 1;
+	grid[3][6] = 1;
+	
+	grid[1][1] = 1;
+	grid[1][2] = 1;
+	grid[1][3] = 1;
+	
+	grid[4][0] = 1;
+	grid[4][1] = 1;
+	grid[4][2] = 1;
+	grid[4][3] = 1;
+	
+	grid[6][5] = 1;
+	grid[6][6] = 1;
+	grid[6][7] = 1;
+}
+
+
+// the function contains the test grid for the AI
+void player_grid(int grid[8][8])
+
+
 // the function checks whether the ships are indeed ramdomly generated on the grid
 bool randomizer_check(int grid[8][8])
 {
