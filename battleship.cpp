@@ -15,7 +15,7 @@ int main()
 		}
 	}
 	
-	std::cout << "Do you want to fight against a normal AI or a difficult AI?" << std::endl;
+	std::cout << "Do you want to fight against a normal AI or a difficult AI?" << std::endl;  // asking the user for normal or difficult difficulty
 	
 	print_grid(size_ten_grid);
 
