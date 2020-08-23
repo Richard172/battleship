@@ -1,6 +1,4 @@
 // a battleship game made by Richard, Tej, and Arjun
-#include <iostream>
-#include <vector>
 #include "difficult_AI.hpp"
 
 int main()
@@ -16,7 +14,6 @@ int main()
 			ai[i][j] = 0;
 		}
 	}
-	
 
 	return 0;
 }

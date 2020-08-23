@@ -1,6 +1,8 @@
 // contains the functions to test the grid
 #include <iostream>
 #include <vector>
+#include <cstdlib>
+#include <ctime>
 
 
 // the function print out the game board grid
@@ -219,3 +221,4 @@ bool randomizer_check(int grid[8][8])
 	}
 	return 1;
 }
+

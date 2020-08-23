@@ -1,6 +1,4 @@
 // this header creates the difficult AI
-#include <iostream>
-#include <vector>
 #include "grid.hpp"
 // #include "randomize_algorithm.hpp"
 
@@ -230,4 +228,113 @@ int** destroy_pdf(int grid[8][8], node* ship)
 	}
 	
 	return new_grid;
+}
+
+
+// the difficult AI that will play against the player
+int* difficult_ai(int grid[8][8], node* ship)
+{
+	int* coord = new int[2];  // an array for the coordinate
+	
+	int max = 0;  // set the maximum weight to be 0
+	int counter_a = 0;  // the counter will count for the number of maximum numbers
+	int counter_b = 0;  // the counter will count max numbers until it reaches the random cardinal number
+	int random_cardinal;  // a random number that's generated between 0 to the number of maximum numbers
+	
+	if (!(int_search(grid, -3)))  // if there's no wounded ships, enter hunt mode
+	{
+		int** hunt_grid = hunt_pdf(grid, ship);
+		
+		for (int i = 0; i < 8; i++)
+		{
+			for (int j = 0; j < 8; j++)
+			{
+				if (max < hunt_grid[i][j])  // find the maximum number on the grid
+				{
+					max = hunt_grid[i][j];
+				}
+			}
+		}
+		
+		for (int i = 0; i < 8; i++)
+		{
+			for (int j = 0; j < 8; j++)
+			{
+				if (hunt_grid[i][j] == max)
+				{
+					counter_a++;  // count the number of maximum on the grid
+				}
+			}
+		}
+		
+		std::srand(std::time(NULL));  // generate a random number
+		random_cardinal = std::rand() % counter_a;
+		
+		for (int i = 0; i < 8; i++)
+		{
+			for (int j = 0; j < 8; j++)
+			{
+				if (hunt_grid[i][j] == max)
+				{
+					if (counter_b == random_cardinal)
+					{
+						coord[0] = i;
+						coord[1] = j;
+						
+						return coord;
+					}
+					
+					counter_b++;
+				}
+			}
+		}
+	}
+	else if (int_search(grid, -3))  // if there's wounded ships, enter destroy mode
+	{
+		int** destroy_grid = destroy_pdf(grid, ship);
+		
+		for (int i = 0; i < 8; i++)
+		{
+			for (int j = 0; j < 8; j++)
+			{
+				if (max < destroy_grid[i][j])  // find the maximum number on the grid
+				{
+					max = destroy_grid[i][j];
+				}
+			}
+		}
+		
+		for (int i = 0; i < 8; i++)
+		{
+			for (int j = 0; j < 8; j++)
+			{
+				if (destroy_grid[i][j] == max)
+				{
+					counter_a++;  // count the number of maximum on the grid
+				}
+			}
+		}
+		
+		std::srand(std::time(NULL));  // generate a random number
+		random_cardinal = std::rand() % counter_a;
+		
+		for (int i = 0; i < 8; i++)
+		{
+			for (int j = 0; j < 8; j++)
+			{
+				if (destroy_grid[i][j] == max)
+				{
+					if (counter_b == random_cardinal)
+					{
+						coord[0] = i;
+						coord[1] = j;
+						
+						return coord;
+					}
+					
+					counter_b++;
+				}
+			}
+		}
+	}
 }
