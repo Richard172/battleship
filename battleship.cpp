@@ -1,6 +1,7 @@
 // a battleship game made by Richard, Tej, and Arjun
 #include <iostream>
-#include "grid.hpp"
+#include <vector>
+#include "difficult_AI.hpp"
 
 int main()
 {
@@ -16,12 +17,6 @@ int main()
 		}
 	}
 	
-	// std::cout << "Do you want to fight against a normal AI or a difficult AI?" << std::endl;  // asking the user for normal or difficult difficulty
-	
-	player_grid(player);
-	ai_grid(ai);
-	
-	print_game(player);
 
 	return 0;
 }

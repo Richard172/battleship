@@ -1,5 +1,6 @@
 // contains the functions to test the grid
 #include <iostream>
+#include <vector>
 
 
 // the function print out the game board grid
@@ -16,6 +17,7 @@ void print_grid(int grid[8][8])
 }
 
 
+// the function changes the integer value to a character
 char int_to_char(int num)
 {
 	if (num == 1)
@@ -41,6 +43,7 @@ char int_to_char(int num)
 }
 
 
+// the function prints out the game board for the player
 void print_game(int grid[8][8])
 {
 	for (int i = 0; i < 8; i++)
@@ -133,6 +136,64 @@ void ai_grid(int grid[8][8])
 	grid[3][5] = 2;
 	grid[4][5] = 2;
 	grid[5][5] = 2;
+}
+
+
+// the function searches for the integer on the grid. Returns 1 if it's on the grid, return 0 if not
+bool int_search(int grid[8][8], int value)
+{
+	for (int i = 0; i < 8; i++)
+	{
+		for (int j = 0; j < 8; j++)
+		{
+			if (grid[i][j] == value)
+			{
+				return 1;
+			}
+		}
+	}
+	return 0;
+}
+
+
+// the function counts for the number of integers on the grid.
+int int_count(int grid[8][8], int value)
+{
+	unsigned int counter = 0;
+	for (int i = 0; i < 8; i++)
+	{
+		for (int j = 0; j < 8; j++)
+		{
+			if (grid[i][j] == value)
+			{
+				counter++;
+			}
+		}
+	}
+	return counter;
+}
+
+
+// the function generates a list of position for the value
+std::vector <std::vector <int> > int_list(int grid[8][8], int value)
+{
+	unsigned int counter = 0;
+	std::vector <std::vector <int> > value_pos;  // create a 2 dimensional vector
+	for (int i = 0; i < 8; i++)
+	{
+		for (int j = 0; j < 8; j++)
+		{
+			if (grid[i][j] == value)
+			{
+				value_pos.push_back(std::vector <int> ());
+				value_pos[counter].push_back(i);  // the 0th index is the row number
+				value_pos[counter].push_back(j);  // the 1st index is the column number
+				counter++;
+			}
+		}
+	}
+	
+	return value_pos;
 }
 
 

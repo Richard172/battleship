@@ -13,7 +13,7 @@ ships win the game.
 THE GAME BOARD
 --------------------------------------------------------------------
 
-The grid in battleship will be a 10 x 10 or a 12 x 12 matrix (subjective to change).
+The grid in battleship will be a 8 x 8 matrix (subjective to change).
 Each square in the grid can be represented using "+", "-", "|". For example, this
 is a 2 by 3 matrix:
 
@@ -179,3 +179,17 @@ The AI search for the squares with most likely chance of having a ship, then it 
 randomly bomb these areas that are equal most likely of having the ship. When it reach
 destroy mode, it will also apply probability to see where the rest of the ship 
 is most likely hidden in the grid and bomb those areas ramdomly. 
+
+--------------------------------------------------------------------
+THE NUMBER ON THE GRID
+--------------------------------------------------------------------
+
+0:  There is nothing on this square.
+1:  The part of a carrier(C) is on this square.
+2:  The part of a battleship(B) is on this square.
+3:  The part of a cruiser(c) is on this square.
+4:  The part of a submarine(s) is on this square.
+-1: This square is beside a unsunk ship.
+-2: This square is bombed by the enemy, but there's no ship on it.
+-3: This square is bombed by the enemy, and the bomb hits part of the ship, but the ship has sunk yet.
+-4: The square covered with -4 indicates the sunk ship and the squares beside the sunk ship.
