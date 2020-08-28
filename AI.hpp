@@ -1,6 +1,5 @@
 // this header creates the difficult AI
-#include "grid.hpp"
-// #include "randomize_algorithm.hpp"
+#include "randomize_algorithm.hpp"
 
 
 // a function for the normal AI

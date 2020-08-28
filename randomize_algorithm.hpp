@@ -8,8 +8,10 @@ struct node{
     int arr3[3];
     int arr4[3];
 	int length;
+	int str_length;
     std::string name;
     node* next;
+	node* previous;
 };
 
 node* structure(int carrier[4][2],int battleship[4][2], int submarine[3][2],int cruiser[3][2]){
@@ -23,6 +25,11 @@ node* structure(int carrier[4][2],int battleship[4][2], int submarine[3][2],int 
     second -> next  = third;
     third -> next = fourth;
     fourth -> next =  NULL;
+	
+	first -> previous = NULL;
+	second -> previous = first;
+	third -> previous = second;
+	fourth -> previous = third;
     
     //row 
     first -> arr1[0] = carrier[0][0];
@@ -44,6 +51,7 @@ node* structure(int carrier[4][2],int battleship[4][2], int submarine[3][2],int 
 
     //name of ship is carrier
     first -> name = "carrier";
+	first -> str_length = 7;
 
     //rows battleship
     second -> arr1[0] = battleship[0][0];
@@ -64,6 +72,7 @@ node* structure(int carrier[4][2],int battleship[4][2], int submarine[3][2],int 
 
     //name
     second -> name = "battleship";
+	second -> str_length = 10;
 
     //row submarine
     third -> arr1[0] = submarine[0][0];
@@ -82,6 +91,7 @@ node* structure(int carrier[4][2],int battleship[4][2], int submarine[3][2],int 
     third -> arr4[2] =  1;
     //name
     third -> name =  "submarine";
+	third -> str_length = 9;
 
     //cruiser rows
     fourth -> arr1[0] = cruiser[0][0];
@@ -94,12 +104,13 @@ node* structure(int carrier[4][2],int battleship[4][2], int submarine[3][2],int 
     fourth -> arr3[1] = cruiser[2][1];
     fourth -> arr4[1] = -1;
     //cruiser boolean if miss
-    third -> arr1[2] =  0;
-    third -> arr2[2] =  0;
-    third -> arr3[2] =  0;
-    third -> arr4[2] =  1;
+    fourth -> arr1[2] =  0;
+    fourth -> arr2[2] =  0;
+    fourth -> arr3[2] =  0;
+    fourth -> arr4[2] =  1;
     // name
     fourth -> name = "cruiser";
+	fourth -> str_length = 7;
 
 	first -> length = 4;
 	second -> length = 4;
@@ -111,7 +122,7 @@ node* structure(int carrier[4][2],int battleship[4][2], int submarine[3][2],int 
 
 
 // the function randomize the ships position
-node* randomizer(int new_grid[8][8])
+node* randomizer(int new_grid[8][8], int random_array[8])
 {
 	int counter;  // a counter that decides the randomness of the ship
 	int max_square;  // the maximum number of ships in a row or column
@@ -126,10 +137,10 @@ node* randomizer(int new_grid[8][8])
 
 	max_square = 8 - 4 + 1;
 
-	std::srand(std::time(NULL));  // flip a fair coin
-	coin_flip = std::rand() % 2; 
+	// flip a fair coin
+	coin_flip = random_array[0] % 2; 
 	
-	random_number = std::rand() % 40 + 1;
+	random_number = random_array[1] % 40 + 1;
 
 	if (coin_flip == 0)  // if the flip is 0, then the ship will be placed horrizontal
 	{
@@ -215,7 +226,7 @@ node* randomizer(int new_grid[8][8])
 	
 	int arr_2[4][2];  // array_2 of coordinates for battleship
 	int condition;  // condition will equal to 1 if the ship can fit on the grid, else 0
-	coin_flip = std::rand() % 2;  // flip a coin again
+	coin_flip = random_array[2] % 2;  // flip a coin again
 	
 	if (coin_flip == 0)  // same idea above, but this time the code will check if the ship will be touched by another ship
 	{
@@ -264,7 +275,7 @@ node* randomizer(int new_grid[8][8])
 		}
 	}
 	
-	random_number = rand() % int_count(truth_grid, 1) + 1;
+	random_number = random_array[3] % int_count(truth_grid, 1) + 1;
 	
 	counter = 0;
 	for (int i = 0; i < 8 && counter != random_number; i++)
@@ -325,7 +336,7 @@ node* randomizer(int new_grid[8][8])
 	
 	int arr_3[3][2];  // array_3 of coordinate for submarine
 	max_square = 8 - 3 + 1;
-	coin_flip = std::rand() % 2;
+	coin_flip = random_array[4] % 2;
 	
 	zero_grid(truth_grid);  // refresh truth grid
 	
@@ -376,7 +387,7 @@ node* randomizer(int new_grid[8][8])
 		}
 	}
 	
-	random_number = rand() % int_count(truth_grid, 1) + 1;
+	random_number = random_array[5] % int_count(truth_grid, 1) + 1;
 	
 	counter = 0;
 	for (int i = 0; i < 8 && counter != random_number; i++)
@@ -436,7 +447,7 @@ node* randomizer(int new_grid[8][8])
 	}
 	
 	int arr_4[3][2];  // the last array for the cruiser
-	coin_flip = std::rand() % 2;
+	coin_flip = random_array[6] % 2;
 	
 	zero_grid(truth_grid);
 	
@@ -540,7 +551,7 @@ node* randomizer(int new_grid[8][8])
 		}
 	}
 	
-	random_number = rand() % int_count(truth_grid, 1) + 1;
+	random_number = random_array[7] % int_count(truth_grid, 1) + 1;
 	
 	counter = 0;
 	for (int i = 0; i < 8 && counter != random_number; i++)
@@ -576,4 +587,284 @@ node* randomizer(int new_grid[8][8])
 	}
 	
 	return structure(arr, arr_2, arr_3, arr_4);
+}
+
+
+node* game_system(int grid[8][8], int row, int col, node* old_ship_list)  // opponent's grid
+{
+	int condition;  
+	int row_num;  // temparary row and col
+	int col_num;
+	node* current;
+	node* ship_list = old_ship_list;
+	node* return_list = ship_list;
+	
+	if (grid[row][col] == 0 || grid[row][col] == -1)
+	{
+		grid[row][col] = -2;
+		return return_list;
+	}
+	else if(grid[row][col] == 1 || grid[row][col] == 2 || grid[row][col] == 3 || grid[row][col] == 4)
+	{
+		grid[row][col] = -3;
+		while (ship_list != NULL)
+		{
+			condition = 1;
+			if (ship_list -> arr1[0] == row && ship_list -> arr1[1] == col)
+			{
+				ship_list -> arr1[2] = 1;
+			}
+			if (ship_list -> arr2[0] == row && ship_list -> arr2[1] == col)
+			{
+				ship_list -> arr2[2] = 1;
+			}
+			if (ship_list -> arr3[0] == row && ship_list -> arr3[1] == col)
+			{
+				ship_list -> arr3[2] = 1;
+			}
+			if (ship_list -> arr4[0] == row && ship_list -> arr4[1] == col)
+			{
+				ship_list -> arr4[2] = 1;
+			}
+			
+			if (ship_list -> arr1[2] == 1 && ship_list -> arr2[2] == 1 && ship_list -> arr3[2] == 1 && ship_list -> arr4[2] == 1)
+			{
+				condition = 0;
+				
+				if (ship_list -> length == 4)
+				{
+					grid[ship_list -> arr1[0]][ship_list -> arr1[1]] = -4;
+					grid[ship_list -> arr2[0]][ship_list -> arr2[1]] = -4;
+					grid[ship_list -> arr3[0]][ship_list -> arr3[1]] = -4;
+					grid[ship_list -> arr4[0]][ship_list -> arr4[1]] = -4;
+					
+					for (int i = -1; i <= 1; i++)
+					{
+						for (int j = -1; j <= 1; j++)
+						{
+							row_num = ship_list -> arr1[0] + i;
+							col_num = ship_list -> arr1[1] + j;
+							if ((row_num < 8 && row_num >= 0) && (col_num < 8 && col_num >= 0) && (!(i == 0 || j == 0)))
+							{
+								grid[row_num][col_num] = -2;
+							}
+							if (row_num < 8 && row_num >= 0 && (col_num < 8 && col_num >= 0) && (i == -1 || j == -1))
+							{
+								grid[row_num][col_num] = -2;
+							}
+						}
+					}
+					
+					for (int i = -1; i <= 1; i++)
+					{
+						for (int j = -1; j <= 1; j++)
+						{
+							row_num = ship_list -> arr2[0] + i;
+							col_num = ship_list -> arr2[1] + j;
+							if ((row_num < 8 && row_num >= 0) && (col_num < 8 && col_num >= 0) && (!(i == 0 || j == 0)))
+							{
+								grid[row_num][col_num] = -2;
+							}
+						}
+					}
+					
+					for (int i = -1; i <= 1; i++)
+					{
+						for (int j = -1; j <= 1; j++)
+						{
+							row_num = ship_list -> arr3[0] + i;
+							col_num = ship_list -> arr3[1] + j;
+							if ((row_num < 8 && row_num >= 0) && (col_num < 8 && col_num >= 0) && (!(i == 0 || j == 0)))
+							{
+								grid[row_num][col_num] = -2;
+							}
+						}
+					}
+					
+					for (int i = -1; i <= 1; i++)
+					{
+						for (int j = -1; j <= 1; j++)
+						{
+							row_num = ship_list -> arr4[0] + i;
+							col_num = ship_list -> arr4[1] + j;
+							if ((row_num < 8 && row_num >= 0) && (col_num < 8 && col_num >= 0) && (!(i == 0 || j == 0)))
+							{
+								grid[row_num][col_num] = -2;
+							}
+							if (row_num < 8 && row_num >= 0 && (col_num < 8 && col_num >= 0) && (i == 1 || j == 1))
+							{
+								grid[row_num][col_num] = -2;
+							}
+						}
+					}
+				}
+				else if (ship_list -> length == 3)
+				{
+					grid[ship_list -> arr1[0]][ship_list -> arr1[1]] = -4;
+					grid[ship_list -> arr2[0]][ship_list -> arr2[1]] = -4;
+					grid[ship_list -> arr3[0]][ship_list -> arr3[1]] = -4;
+					
+					for (int i = -1; i <= 1; i++)
+					{
+						for (int j = -1; j <= 1; j++)
+						{
+							row_num = ship_list -> arr1[0] + i;
+							col_num = ship_list -> arr1[1] + j;
+							if ((row_num < 8 && row_num >= 0) && (col_num < 8 && col_num >= 0) && (!(i == 0 || j == 0)))
+							{
+								grid[row_num][col_num] = -2;
+							}
+							if (row_num < 8 && row_num >= 0 && (col_num < 8 && col_num >= 0) && (i == -1 || j == -1))
+							{
+								grid[row_num][col_num] = -2;
+							}
+						}
+					}
+					
+					for (int i = -1; i <= 1; i++)
+					{
+						for (int j = -1; j <= 1; j++)
+						{
+							row_num = ship_list -> arr2[0] + i;
+							col_num = ship_list -> arr2[1] + j;
+							if ((row_num < 8 && row_num >= 0) && (col_num < 8 && col_num >= 0) && (!(i == 0 || j == 0)))
+							{
+								grid[row_num][col_num] = -2;
+							}
+						}
+					}
+					
+					for (int i = -1; i <= 1; i++)
+					{
+						for (int j = -1; j <= 1; j++)
+						{
+							row_num = ship_list -> arr3[0] + i;
+							col_num = ship_list -> arr3[1] + j;
+							if ((row_num < 8 && row_num >= 0) && (col_num < 8 && col_num >= 0) && (!(i == 0 || j == 0)))
+							{
+								grid[row_num][col_num] = -2;
+							}
+							if (row_num < 8 && row_num >= 0 && (col_num < 8 && col_num >= 0) && (i == 1 || j == 1))
+							{
+								grid[row_num][col_num] = -2;
+							}
+						}
+					}
+				}
+
+				if (ship_list -> previous == NULL && ship_list -> next == NULL)
+				{
+					current = ship_list;
+					ship_list = NULL;
+					return_list = NULL;
+					delete current;
+				}
+				else if (ship_list -> previous == NULL)
+				{
+					current = ship_list;
+					ship_list -> next -> previous = NULL;
+					ship_list = ship_list -> next;
+					return_list = ship_list;
+					delete current;
+				}
+				else if (ship_list -> next == NULL)
+				{
+					current = ship_list;
+					ship_list -> previous -> next = NULL;
+					ship_list = NULL;
+					delete current;
+				}
+				else
+				{
+					current = ship_list;
+					ship_list -> previous -> next = ship_list -> next;
+					ship_list -> next -> previous = ship_list -> previous;
+					ship_list = ship_list -> next;
+					delete current;
+				}
+			}
+			if (condition == 1)
+			{
+				ship_list = ship_list -> next;
+			}
+		}
+		return return_list;
+	}
+}
+
+
+// the function prints out the game board for the player
+void print_game(int grid[8][8], int enemy_grid[8][8], node* player, node* ai)
+{
+	int total_str_len = 54;  // the length of the string in total_str_len
+	int str_len = 0;
+	int str_size;  // size of a string
+	
+	std::cout << "Your ships:" << std::setw(57) << "Enemy's ships:" << std::endl;
+	
+	while (player != NULL)
+	{
+		str_size = player -> str_length;
+		std::cout << player -> name << "; ";
+		player = player -> next;
+		str_len = str_len + 2 + str_size;
+	}
+	
+	for (int i = 0; i < (total_str_len - str_len); i++)
+	{
+		std::cout << ' ';
+	}
+	
+	while (ai != NULL)
+	{
+		std::cout << ai -> name << "; ";
+		ai = ai -> next;
+	}
+	
+	std::cout << std::endl;
+	
+	for (int i = 0; i < 8; i++)
+	{
+		for (int j = 0; j < 8; j++)
+		{
+			std::cout << "+---";
+		}
+		
+		std::cout << "+          |          ";
+		
+		for (int j = 0; j < 8; j++)
+		{
+			std::cout << "+---";
+		}
+		
+		std::cout << "+\n";
+		
+		for (int j = 0; j < 8; j++)
+		{
+			std::cout << "| " << int_to_char_player(grid[i][j]) << " ";
+		}
+		
+		std::cout << "|          |          ";
+		
+		for (int j = 0; j < 8; j++)
+		{
+			std::cout << "| " << int_to_char_enemy(enemy_grid[i][j]) << " ";
+		}
+		
+		std::cout << "|\n";
+	}
+	
+	for (int j = 0; j < 8; j++)
+		{
+			std::cout << "+---";
+		}
+		
+		std::cout << "+          |          ";
+		
+		for (int j = 0; j < 8; j++)
+		{
+			std::cout << "+---";
+		}
+		
+		std::cout << "+\n";
 }

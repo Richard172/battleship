@@ -4,7 +4,7 @@
 #include <cstdlib>
 #include <ctime>
 #include <iomanip>
-
+#include <limits>
 
 void zero_grid(int grid[8][8])
 {
@@ -32,8 +32,8 @@ void print_grid(int grid[8][8])
 }
 
 
-// the function changes the integer value to a character
-char int_to_char(int num)
+// the function changes the integer value to a character for player
+char int_to_char_player(int num)
 {
 	if (num == 1)
 	{
@@ -51,6 +51,14 @@ char int_to_char(int num)
 	{
 		return 'c';
 	}
+	else if (num == -2)
+	{
+		return '*';
+	}
+	else if (num == -3 || num == -4)
+	{
+		return 'X';
+	}
 	else 
 	{
 		return ' ';
@@ -58,59 +66,28 @@ char int_to_char(int num)
 }
 
 
-// the function prints out the game board for the player
-void print_game(int grid[8][8])
+char int_to_char_enemy(int num)
 {
-	for (int i = 0; i < 8; i++)
+	if (num == -2)
 	{
-		for (int j = 0; j < 8; j++)
-		{
-			std::cout << "+---";
-		}
-		
-		std::cout << "+          |          ";
-		
-		for (int j = 0; j < 8; j++)
-		{
-			std::cout << "+---";
-		}
-		
-		std::cout << "+\n";
-		
-		for (int j = 0; j < 8; j++)
-		{
-			std::cout << "| " << int_to_char(grid[i][j]) << " ";
-		}
-		
-		std::cout << "|          |          ";
-		
-		for (int j = 0; j < 8; j++)
-		{
-			std::cout << "|   ";
-		}
-		
-		std::cout << "|\n";
+		return '*';
 	}
-	
-	for (int j = 0; j < 8; j++)
-		{
-			std::cout << "+---";
-		}
-		
-		std::cout << "+          |          ";
-		
-		for (int j = 0; j < 8; j++)
-		{
-			std::cout << "+---";
-		}
-		
-		std::cout << "+\n";
+	else if (num == -3 || num == -4)
+	{
+		return 'X';
+	}
+	else
+	{
+		return ' ';
+	}
 }
 
 
 // the function contains the test grid for the player
 void player_grid(int grid[8][8])
 {
+	zero_grid(grid);
+	
 	grid[1][6] = 2;
 	grid[2][6] = 2;
 	grid[3][6] = 2;
@@ -134,6 +111,8 @@ void player_grid(int grid[8][8])
 // the function contains the test grid for the AI
 void ai_grid(int grid[8][8])
 {
+	zero_grid(grid);
+	
 	grid[0][3] = 4;
 	grid[0][4] = 4;
 	grid[0][5] = 4;
