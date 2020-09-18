@@ -790,6 +790,7 @@ node* game_system(int grid[8][8], int row, int col, node* old_ship_list)  // opp
 		}
 		return return_list;
 	}
+	return return_list;
 }
 
 

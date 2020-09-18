@@ -124,6 +124,8 @@ int* normal_ai(int grid[8][8])
 			return coord;
 		}
 	}
+	
+	return coord;
 }
 
 
@@ -468,4 +470,6 @@ int* difficult_ai(int grid[8][8], node* ship)
 			}
 		}
 	}
+	
+	return coord;
 }

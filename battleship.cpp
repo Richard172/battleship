@@ -17,7 +17,7 @@ int main()
 	}
 	
 	
-	int prompt;  // ask the players what they want to choose
+	int prompt = -1;  // ask the players what they want to choose
 	int player[8][8];  // a 8 by 8 matrix for the game board for player
 	int ai[8][8];  // the grid for AI
 
@@ -27,6 +27,7 @@ int main()
 	node* current;  // a current node used to delete a linked list
 	
 	std::cout << "Welcome to battleship, please choose one of the following prompt by entering the number:" << std::endl << std::endl;
+	
 	
 	while (prompt != 0)
 	{
